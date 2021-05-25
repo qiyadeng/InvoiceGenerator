@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>发票系统</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0"/>
+    <!-- 引入 WeUI CDN 链接 -->
+    <link href="https://cdn.bootcdn.net/ajax/libs/weui/2.3.0/style/weui.min.css" rel="stylesheet"></link>
+    <link href="https://cdn.bootcdn.net/ajax/libs/jquery-weui/0.2.0/css/jquery-weui.min.css" rel="stylesheet"></link>
+</head>
+<body>
+<div class="container">
+    <div class="weui-msg">
+        <div class="weui-msg__icon-area">
+            <i class="weui-icon-warn weui-icon_msg"></i></div>
+        <div class="weui-msg__text-area">
+            <h2 class="weui-msg__title" th:text="${title}"></h2>
+            <p class="weui-msg__desc" th:text="${msg}"></p>
+        </div>
+    </div>
+</div>
+</body>
+</html>

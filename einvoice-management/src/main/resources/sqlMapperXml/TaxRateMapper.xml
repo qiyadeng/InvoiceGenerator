@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.management.mapper.TaxRateMapper">
+    <select id="listTaxRate" resultMap="TaxRateMap">
+        select * from tax_rate where status=1
+    </select>
+
+    <resultMap id="TaxRateMap" type="com.management.model.TaxRate">
+        <result property="id" column="id"></result>
+        <result property="taxItem" column="tax_item"></result>
+        <result property="taxRate" column="tax_rate"></result>
+        <result property="createTime" column="create_time"></result>
+        <result property="updateTime" column="update_time"></result>
+        <result property="status" column="status"></result>
+    </resultMap>
+</mapper>

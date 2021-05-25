@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.management.mapper.TaxRateDetailMapper">
+    <select id="getById" resultMap="taxRateDetailMap">
+        select * from tax_rate_detail t
+        <where>
+            t.id=#{id}
+        </where>
+    </select>
+    <select id="taxRateDetailList" resultMap="taxRateDetailMap">
+        select * from tax_rate_detail t
+        <if test="q==null or q==''">
+            limit 30
+        </if>
+
+        <if test="q!=null and q!=''">
+            <where>
+                t.description_goods like concat('%',#{q},'%')
+            </where>
+        </if>
+    </select>
+    <select id="getByMergeCode" resultMap="taxRateDetailMap">
+        select * from tax_rate_detail t
+        <where>
+            t.merge_code = #{mergeCode}
+        </where>
+    </select>
+
+    <resultMap id="taxRateDetailMap" type="com.management.model.TaxRateDetail">
+        <result property="id" column="id"></result>
+        <result property="piece" column="piece"></result>
+        <result property="category" column="category"></result>
+        <result property="chapter" column="chapter"></result>
+        <result property="knob" column="knob"></result>
+        <result property="strips" column="strips"></result>
+        <result property="sincere" column="sincere"></result>
+        <result property="item" column="item"></result>
+        <result property="suborder" column="suborder"></result>
+        <result property="subtitle" column="subtitle"></result>
+        <result property="detail" column="detail"></result>
+        <result property="mergeCode" column="merge_code"></result>
+        <result property="descriptionGoods" column="description_goods"></result>
+        <result property="productName" column="product_name"></result>
+        <result property="state" column="status"></result>
+    </resultMap>
+</mapper>

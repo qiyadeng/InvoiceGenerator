@@ -1,0 +1,269 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<link>
+<title>发票系统</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0"/>
+<title>WeUI</title>
+<!-- 引入 WeUI CDN 链接 -->
+<link href="/css/index.css" rel="stylesheet"/>
+</link>
+<link href="https://cdn.bootcdn.net/ajax/libs/weui/2.3.0/style/weui.min.css" rel="stylesheet"></link>
+<link href="https://cdn.bootcdn.net/ajax/libs/jquery-weui/0.2.0/css/jquery-weui.min.css" rel="stylesheet"></link>
+</head>
+<body>
+
+
+<div class="page">
+    <div class="weui-form" style="padding: 20px 0 ">
+        <form>
+            <div class="weui-form__text-area">
+                <div style="margin-bottom: 20px;" class="weui-form__desc"  th:text="'商户：'+${user.taxMerchantName}"></div>
+            </div>
+            <div class="weui-form__control-area" style="margin: 0px">
+                <div class="weui-cells__group weui-cells__group_form">
+                    <div class="weui-cells__title">开票信息</div>
+                    <div class="weui-cells weui-cells_form">
+                        <div class="weui-cell weui-cell_active">
+                            <div class="weui-cell__hd"><label style="font-size: 14px;" class="weui-label">开票金额</label>
+                            </div>
+                            <div class="weui-cell__bd">
+                                <p th:text="${head.jshj}+元" class="weui-input"></p>
+                                <input id="fpqqlsh" name="fpqqlsh" type="hidden" class="weui-input" placeholder=""/>
+                            </div>
+                        </div>
+                        <div style="display: none" class="weui-cell weui-cell_active">
+                            <div class="weui-cell__hd"><label style="font-size: 14px;" class="weui-label">当前发票状态</label>
+                            </div>
+                            <div class="weui-cell__bd">
+                                <p th:text="${statusName}" class="weui-input"></p>
+                                <p id="status" th:text="${status}" style="display: none"></p>
+                            </div>
+                        </div>
+
+                        <div class="weui-cell weui-cell_active">
+                            <div class="weui-cell__hd"><label style="font-size: 14px;" class="weui-label"><span
+                                    style="color: red">*</span>公司抬头</label></div>
+                            <div class="weui-cell__bd">
+                                <input id="gmfMc" name="gmf_mc" th:value="${head.gmf_mc}"
+                                       class="weui-input" placeholder="请填写公司抬头"/>
+                            </div>
+                        </div>
+                        <div id="companyList">
+                            <ul id="companyUl">
+                            </ul>
+                        </div>
+
+                        <div class="weui-cell weui-cell_active">
+                            <div class="weui-cell__hd"><label style="font-size: 14px;" class="weui-label"><span
+                                    style="color: red">*</span>纳税人识别号</label></div>
+                            <div class="weui-cell__bd">
+                                <input id="nsrsbh" name="gmf_nsrsbh" th:value="${head.gmf_nsrsbh}" class="weui-input"
+                                       placeholder="请填写纳税人账号"/>
+                            </div>
+                        </div>
+
+                        <div class="weui-cell weui-cell_active">
+                            <div class="weui-cell__hd"><label style="font-size: 14px;" class="weui-label">开户银行名称</label>
+                            </div>
+                            <div class="weui-cell__bd">
+                                <input id="gmf_yh" name="gmf_yh" class="weui-input"
+                                       th:value='${head.gmf_yhzh.substring(0,head.gmf_yhzh.indexOf(" "))}'
+                                       placeholder="请填写开户银行名称"/>
+                            </div>
+                        </div>
+                        <div class="weui-cell weui-cell_active">
+                            <div class="weui-cell__hd"><label style="font-size: 14px;" class="weui-label">开户银行账号</label>
+                            </div>
+                            <div class="weui-cell__bd">
+                                <input id="gmf_zh" name="gmf_zh" class="weui-input"
+                                       th:value='${head.gmf_yhzh.substring(head.gmf_yhzh.indexOf(" ")+1)}'
+                                       placeholder="请填写开户银行账号"/>
+                            </div>
+                        </div>
+
+
+                        <div class="weui-cell weui-cell_active">
+                            <div class="weui-cell__hd"><label style="font-size: 14px;" class="weui-label">公司地址</label>
+                            </div>
+                            <div class="weui-cell__bd">
+                                <input id="gmfDz" name="gmf_dz" class="weui-input"
+                                       th:value='${head.gmf_dzdh.substring(0,head.gmf_dzdh.indexOf(" "))}'
+                                       placeholder="请填写公司地址"/>
+                            </div>
+                        </div>
+                        <div class="weui-cell weui-cell_active">
+                            <div class="weui-cell__hd"><label style="font-size: 14px;" class="weui-label">公司电话</label>
+                            </div>
+                            <div class="weui-cell__bd">
+                                <input id="gmfDh" name="gmf_dh" class="weui-input"
+                                       th:value='${head.gmf_dzdh.substring(head.gmf_dzdh.indexOf(" ")+1)}'
+                                       placeholder="请填写公司电话"/>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="weui-cells__title">收票联系方式</div>
+                    <div class="weui-cells weui-cells_form">
+                        <div class="weui-cell weui-cell_active">
+                            <div class="weui-cell__hd"><label style="font-size: 14px;" class="weui-label"><span
+                                    style="color: red">*</span>邮箱地址</label></div>
+                            <div class="weui-cell__bd">
+                                <input id="email" name="email" class="weui-input" th:value="${head.gmf_email}"
+                                       placeholder="请输入邮箱地址"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="weui-form__tips-area">
+                <p class="weui-form__tips">
+
+                </p>
+            </div>
+            <div class="weui-form__opr-area">
+                <a class="weui-btn weui-btn_primary" href="javascript:" id="showTooltips">提交</a>
+            </div>
+            <input type="hidden" id="key" th:value="${key}">
+            <input type="hidden" id="timeStamp" th:value="${timeStamp}">
+        </form>
+    </div>
+
+    <div id="js_toast" style="display: none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-icon-success-no-circle weui-icon_toast"></i>
+            <p class="weui-toast__content">提交成功</p>
+        </div>
+    </div>
+</div>
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery-weui/1.2.1/js/jquery-weui.min.js"></script>
+<script src="/encrypt/md5.min.js"></script>
+<script type="text/javascript">
+    var company = []
+    function companyInfo(keyword, callback) {
+        let key = $('#key').val()
+        let timeStamp = $('#timeStamp').val()
+        let sign = md5(key + timeStamp + keyword)
+        let param = {
+            "keyword": keyword,
+            "sign": sign,
+            "key": key,
+            "timeStamp": timeStamp
+        }
+        $.ajax({
+            url: "https://daydayupapi.qiyadeng.com/einvoice/getInvoiceInfo",
+            data: JSON.stringify(param),
+            type: "POST",
+            dataType: "json",
+            contentType: "application/json;charset=utf-8",
+            success: function (result) {
+                company = result
+                callback()
+            }
+        })
+    }
+    function closeTip() {
+        $('#companyList').hide()
+    }
+
+    $(function () {
+        let param = new URL(location.href).searchParams
+        $('#fpqqlsh').val(param.get("lsh"))
+        $('#showTooltips').hide();
+        let status = parseInt($('#status').text());
+        if (status == 0) {
+            $('#showTooltips').show();
+        }
+        if (status != 0) {
+            $(".weui-input").each(function () {
+                $(this).attr("disabled", "disabled");
+            });
+        }
+        let $input = $('#js_input');
+        $input.on('input', function () {
+            if ($input.val()) {
+                $('#showTooltips').removeClass('weui-btn_disabled');
+            } else {
+                $('#showTooltips').addClass('weui-btn_disabled');
+            }
+        });
+        $('body').on('click','.company_item',function() {
+            let companyInfo = company[$(this).attr('value')]
+            console.log(companyInfo)
+            $('#gmfMc').val(companyInfo.unitName)
+            $('#nsrsbh').val(companyInfo.unitTaxNo)
+            $('#gmf_yh').val(companyInfo.bankName)
+            $('#gmf_zh').val(companyInfo.bankNo)
+            $('#gmfDz').val(companyInfo.unitAddress)
+            $('#gmfDh').val(companyInfo.unitPhone)
+            $('#companyList').hide()
+        })
+        $('#gmfMc').on('keyup', function () {
+            let gmfMc = $('#gmfMc').val()
+            if (gmfMc.length >= 2) {
+                companyInfo(gmfMc, function () {
+                    if (company.length > 0) {
+                        let content = ''
+                        for (let i = 0; i < company.length; i++) {
+                            let unitName = company[i].unitName
+                            content += "<li value="+i+" class='company_item'>" + unitName + "</li>"
+                        }
+                        content += "<li  class='company_item'>请选择抬头，没有找到？请<a onclick='closeTip()' href='javascript:;'>手动输入</a> </li>"
+                        $('#companyUl').html(content)
+                        $('#companyList').show()
+                    }
+                })
+            }else {
+                closeTip()
+            }
+        })
+
+        $('#refresh').on('click', function () {
+            location.reload();
+        })
+        $('#showTooltips').on('click', function () {
+            if ($(this).hasClass('weui-btn_disabled')) return;
+            var data = $('form').serialize();
+            console.debug(data)
+            if ($('#gmfMc').val() == "" || $('#gmfMc').val() == undefined) {
+                $.toast("请输入公司抬头", "cancel")
+                return
+            }
+            if ($('#nsrsbh').val() == "" || $('#nsrsbh').val() == undefined) {
+                $.toast("请输入纳税人识别号", "cancel")
+                return
+            }
+            if ($('#email').val() == "" || $('#email').val() == undefined) {
+                $.toast("请输入邮箱地址", "cancel")
+                return
+            }
+            let reg = /^[A-Za-z0-9\u4e00-\u9fa5]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/;
+            if (!reg.test($('#email').val())) {
+                $.toast("请输入正确的邮箱", "cancel")
+                return false
+            }
+            $.ajax({
+                url: "/update",
+                data: data,
+                type: "POST",
+                success: function (result) {
+                    if (result.code == 0) {
+                        location.reload();
+                    } else {
+                        $.toast(result.message, "cancel")
+                    }
+                },
+                error: function () {
+                    $.toast("提交失败", "cancel")
+                }
+            })
+            $('.page.cell').removeClass('slideIn');
+        });
+    });
+</script>
+</body>
+</html>
+

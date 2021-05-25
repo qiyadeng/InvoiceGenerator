@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>发票详情</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0"/>
+    <title>WeUI</title>
+    <!-- 引入 WeUI CDN 链接 -->
+    <link href="/weui/css/weui.css" rel="stylesheet"></link>
+    <link href="/weui/css/weuix.css" rel="stylesheet"></link>
+</head>
+<body>
+    <div class="page">
+        <iframe th:src="${viewerUrl}+'pdfViewer?file='+${url}" style="width: 100%;height:450px" frameborder="0" id="pdfContainer" name="pdfContainer"></iframe>
+        <input id="client" type="hidden" th:value="${viewerUrl}"/>
+        <div style="margin-top: 20px">
+            <a style="width: 85%" id="downloadPdf" class="weui-btn weui-btn_primary" th:href="${url}">下载电子发票pdf文件</a>
+            <a style="width: 85%" id="sendEmail" class="weui-btn weui-btn_primary" href="javascript:">将发票发送到邮箱</a>
+            <p style="color: red;font-size: 14px;margin-left: 30px;margin-top: 10px">注：发票发送到邮箱每天仅限三次</p>
+        </div>
+    </div>
+    <script src="/weui/js/zepto.min.js"></script>
+    <script src="/weui/js/zepto.weui.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            //将发票发送到邮箱
+            $(document).on('click','#sendEmail',function () {
+                $.prompt({
+                    title:'将发票发送到邮箱',
+                    text:'请填写邮箱',
+                    input:'',
+                    empty:false,
+                    autoClose:false,
+                    onOK:function (input) {
+                        let reg = /^[A-Za-z0-9\u4e00-\u9fa5]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/;
+                        if(!reg.test(input)) {
+                            $.toptip("请输入正确的邮箱",2000)
+                            return false
+                        }else {
+                            let client = $('#client').val()
+                            let params = new URL(location.href).searchParams
+                            let url = client+'sendEmail?fqqlsh='+params.get("lsh")+'&email='+input
+                           $.ajax({
+                               type:'GET',
+                               url:url,
+                               success:function (data) {
+                                   if(data.status == 200) {
+                                       $.toptip(data.message,'success')
+                                   }else {
+                                       $.toptip(data.message,'warning')
+                                   }
+                               }
+                           })
+                        }
+                    },
+                    onCancel:function () {
+                        $.closeModal();
+                    }
+                })
+            })
+        })
+    </script>
+</body>
+</html>

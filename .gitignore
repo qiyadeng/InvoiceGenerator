@@ -1,0 +1,14 @@
+*/target/*.*
+*/logs/*.*
+*.iml
+*/.idea/*.*
+einvoice-client/target
+einvoice-core/target
+einvoice-query/target
+einvoice-service/target
+einvoice-management/target
+logs
+einvoice-task/target
+einvoice-merchant/target
+log
+.idea

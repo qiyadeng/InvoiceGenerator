@@ -1,0 +1,9 @@
+server:
+  port: 6080
+sysconfig:
+  app-secret: b0ea2cee01a94541b16b518c4e633114
+  invoice-action: http://xxxx/invoiceAction/
+  invoice-path: /Users/mac
+  appid: 20226e1bf73b4e2eba54eed501da4fa9
+logging:
+  config: classpath:logback-boot.xml

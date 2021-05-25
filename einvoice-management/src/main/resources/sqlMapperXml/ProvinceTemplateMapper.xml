@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.management.mapper.ProvinceTemplateMapper">
+    <select id="listProvinceTemplate" resultMap="ProvinceTemplateMap" >
+        select * from province_template
+        <where>
+            status = 1
+            <if test="province != null and province != '' ">
+                <![CDATA[ and province like CONCAT('%',#{province},'%' ) ]]>
+            </if>
+        </where>
+        order by create_time desc
+    </select>
+    <select id="listTemplate" resultMap="ProvinceTemplateMap">
+        select * from province_template
+        <where>
+            status=1
+        </where>
+    </select>
+
+    <update id="deleteProvinceTemplate">
+         update province_template set status=0 where id=#{id}
+    </update>
+
+    <select id="getTemplateByProvince" resultMap="ProvinceTemplateMap">
+        select * from province_template
+        <where>
+            status = 1 and province=#{province}
+        </where>
+    </select>
+    <select id="getTemplateByUuid" resultMap="ProvinceTemplateMap">
+        select * from province_template
+        <where>
+            status = 1 and uuid=#{uuid}
+        </where>
+    </select>
+    <resultMap id="ProvinceTemplateMap" type="com.management.model.ProvinceTemplate">
+        <result property="id" column="id"></result>
+        <result property="province" column="province"></result>
+        <result property="uuid" column="uuid"></result>
+        <result property="templateUrl" column="template_url"></result>
+        <result property="createTime" column="create_time"></result>
+        <result property="updateTime" column="update_time"></result>
+        <result property="status" column="status"></result>
+    </resultMap>
+</mapper>
